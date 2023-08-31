@@ -1,3 +1,9 @@
+/**
+ * Returns the array of the CustomerSuccess with the most customers
+ * @param {Integer} score
+ * @param {array} customers
+ * @param {Object} csBusy
+ */
 function distributorByScore(score, customers, csBusy) {
   const keysCsBusy = Object.keys(csBusy);
   const highestScore = keysCsBusy[keysCsBusy.length - 1];
@@ -9,6 +15,10 @@ function distributorByScore(score, customers, csBusy) {
   }
 }
 
+/**
+ * Returns the score of the CustomerSuccess
+ * @param {Integer} allCsAvailable
+ */
 function returnsBigger(allCsAvailable) {
   let matriz = [];
   let bigger = 0;
