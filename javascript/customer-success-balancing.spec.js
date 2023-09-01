@@ -103,5 +103,84 @@ describe('Scenarios', () => {
     const csAway = [2, 4];
     expect(customerSuccessBalancing(css, customers, csAway)).toEqual(1);
   });
+
+  test("Should be no duplicate score in customerSuccess", () => {
+    const css = mapEntities([60, 60, 95, 75]);
+    const customers = mapEntities([90, 70, 20, 40, 60, 10]);
+    const csAway = [2, 4];
   
+    expect(customerSuccessBalancing(css, customers, csAway)).toBe("Duplicated score to customer success.");
+  });
+  
+  test("Should be a quantity valid to customerSuccess", () => {
+    const css = mapEntities(arraySeq(1001, 1));
+    const customers = buildSizeEntities(10000, 998);
+    const csAway = [];
+  
+    expect(customerSuccessBalancing(css, customers, csAway)).toBe("Quantity invalid to customer success.");
+  });
+  
+  test("Should be a quantity valid to customers", () => {
+    const css = mapEntities([60, 40, 95, 75]);
+    const customers = buildSizeEntities(1000001, 998);
+    const csAway = [];
+  
+    expect(customerSuccessBalancing(css, customers, csAway)).toBe("Quantity invalid to customers.");
+  });
+  
+  test("Should be a id valid to customerSuccess", () => {
+    const css = [
+      { id: 1, score: 90 },
+      { id: 1001, score: 60 },
+    ];
+    const customers = [
+      { id: 1, score: 90 },
+      { id: 2, score: 20 },
+    ];
+    const csAway = [];
+  
+    expect(customerSuccessBalancing(css, customers, csAway)).toBe("Id invalid to customer success.");
+  });
+  
+  test("Should be a id valid to customers", () => {
+    const css = [
+      { id: 1, score: 90 },
+      { id: 2, score: 60 },
+    ];
+    const customers = [
+      { id: 2, score: 60 },
+      { id: 1000001, score: 90 },
+    ];
+    const csAway = [];
+  
+    expect(customerSuccessBalancing(css, customers, csAway)).toBe("Id invalid to customers.");
+  });
+  
+  test("Should be a score valid to customerSuccess", () => {
+    const css = [
+      { id: 1, score: 10001 },
+      { id: 2, score: 60 },
+    ];
+    const customers = [
+      { id: 1, score: 90 },
+      { id: 2, score: 20 },
+    ];
+    const csAway = [];
+  
+    expect(customerSuccessBalancing(css, customers, csAway)).toBe("Score invalid to customer success.");
+  });
+  
+  test("Should be a score valid to customers", () => {
+    const css = [
+      { id: 1, score: 90 },
+      { id: 2, score: 60 },
+    ];
+    const customers = [
+      { id: 1, score: 100001 },
+      { id: 2, score: 60 },
+    ];
+    const csAway = [];
+  
+    expect(customerSuccessBalancing(css, customers, csAway)).toBe("Score invalid to customers.");
+  });
 })

@@ -40,6 +40,56 @@ function returnsBigger(allCsAvailable) {
 }
 
 /**
+ * Returns boolean
+ * @param {array} customerSuccess
+ */
+function hasDuplicate(customerSuccess) {
+  const scoreValues = customerSuccess.map(cs => cs.score);
+  
+  return new Set(scoreValues).size !== scoreValues.length;
+}
+
+/**
+ * Returns boolean
+ * @param {Integer} qtdMax
+ * @param {array} customers
+ */
+function quantityIsValid(qtdMax, customers) {
+  const qtdCs = customers.length
+
+  return qtdCs > 0 && qtdCs < qtdMax;
+}
+/**
+ * Returns boolean
+ * @param {Integer} max
+ * @param {array} customers
+ */
+function hasIdInvalid(max, customers) {
+  let invalid = 0;
+  customers.forEach(cs => {
+    if(cs.id < 0 || cs.id > max) {
+      invalid++;
+    }
+  })
+  return (invalid > 0);
+}
+
+/**
+ * Returns boolean
+ * @param {Integer} max
+ * @param {array} customers
+ */
+function hasScoreInvalid(max, customers) {
+  let invalid = 0;
+  customers.forEach(cs => {
+    if(cs.score < 0 || cs.score > max) {
+      invalid++;
+    }
+  })
+  return (invalid > 0);
+}
+
+/**
  * Returns the id of the CustomerSuccess with the most customers
  * @param {array} customerSuccess
  * @param {array} customers
@@ -50,6 +100,34 @@ function customerSuccessBalancing(
   customers,
   customerSuccessAway
 ) {
+  if(!quantityIsValid(1000, customerSuccess)) {
+    return "Quantity invalid to customer success.";
+  }
+  
+  if(!quantityIsValid(1000000, customers)) {
+    return "Quantity invalid to customers.";
+  }
+
+  if(hasIdInvalid(1000, customerSuccess)) {
+    return "Id invalid to customer success.";
+  }
+  
+  if(hasIdInvalid(1000000, customers)) {
+    return "Id invalid to customers.";
+  }
+  
+  if(hasScoreInvalid(10000, customerSuccess)) {
+    return "Score invalid to customer success.";
+  }
+  
+  if(hasScoreInvalid(100000, customers)) {
+    return "Score invalid to customers.";
+  }
+
+  if(hasDuplicate(customerSuccess)) {
+    return "Duplicated score to customer success.";
+  }
+
   let csAvailable = customerSuccess;
   let csAvailableWithCustomers = {};
 
@@ -60,7 +138,6 @@ function customerSuccessBalancing(
   csAvailable.sort((obj1, obj2) => {
     return obj1.score < obj2.score ? -1 : obj1.score > obj2.score ? 1 : 0;
   })
-  
   
   csAvailable.forEach(cs => {
     const costumersByScore = distributorByScore(cs.score, customers, csAvailableWithCustomers);
